@@ -169,6 +169,9 @@ export default function ManageTherapists() {
         };
 
         await therapistApi.createTherapist(therapistData);
+        setShowModal(false);
+        await fetchTherapists();
+        alert('Therapist created successfully!');
       } else {
         const therapistData = {
           user_id: selectedTherapist.user_id,

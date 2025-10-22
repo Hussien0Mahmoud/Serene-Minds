@@ -660,10 +660,19 @@ class AdminStatsViewSet(viewsets.ModelViewSet):
             count=Count("status")
         )
         upcoming_events = Event.objects.filter(date__gte=today).count()
+        total_appointments = Appointment.objects.count()
 
-        # Combine all statistics
+        # Ensure the response uses up-to-date counts for therapists and resources
+        latest_total_therapists = Therapist.objects.count()
+        latest_total_resources = Resource.objects.count()
+
+        stats_data = AdminStatsSerializer(stats).data
+        stats_data["total_therapists"] = latest_total_therapists
+        stats_data["total_resources"] = latest_total_resources
+        stats_data["total_appointments"] = total_appointments
+
         dashboard_stats = {
-            "stats": AdminStatsSerializer(stats).data,
+            "stats": stats_data,
             "appointments_by_status": appointments_by_status,
             "upcoming_events": upcoming_events,
         }

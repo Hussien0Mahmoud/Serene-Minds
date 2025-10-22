@@ -75,6 +75,9 @@ DATABASES = {
 # Custom user model
 AUTH_USER_MODEL = "api.CustomUser"
 
+# Username validation
+USERNAME_VALIDATORS = []
+
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {

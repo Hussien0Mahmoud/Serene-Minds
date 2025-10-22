@@ -12,6 +12,16 @@ class CustomUser(AbstractUser):
         ("admin", "Admin"),
     )
 
+    # Override username field to allow spaces
+    username = models.CharField(
+        max_length=150,
+        unique=True,
+        help_text="Required. 150 characters or fewer.",
+        error_messages={
+            "unique": "A user with that username already exists.",
+        },
+    )
+
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="user")

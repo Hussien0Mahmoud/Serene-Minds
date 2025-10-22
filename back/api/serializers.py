@@ -15,6 +15,12 @@ class UserRegistrationSerializer(UserCreateSerializer):
         model = User
         fields = ['username', 'email', 'phone', 'role', 'profile_image', 'name']
 
+    def validate_username(self, value):
+        if value.strip() != value:
+            raise serializers.ValidationError("Username cannot have leading or trailing spaces.")
+        if len(value.strip()) < 1:
+            raise serializers.ValidationError("Username cannot be empty.")
+        return value
 
     def create(self, validated_data):
         user = super().create(validated_data)
@@ -64,44 +70,110 @@ class TherapistSerializer(serializers.ModelSerializer):
         ]
     
     def create(self, validated_data):
-        schedule_data = validated_data.pop('schedule', {})
+        import json
+
+        schedule_data = validated_data.pop('schedule', None)
+
+        # If schedule not present in validated_data, try to parse incoming raw data
+        if not schedule_data and hasattr(self, 'initial_data'):
+            raw = self.initial_data.get('schedule') or self.initial_data.get('time_slots')
+            if raw:
+                # If raw is a JSON string, try to load it
+                if isinstance(raw, str):
+                    try:
+                        raw_parsed = json.loads(raw)
+                    except Exception:
+                        raw_parsed = None
+                else:
+                    raw_parsed = raw
+
+                # If parsed is a list of slot objects, convert to dict {day: [times...]}
+                if isinstance(raw_parsed, list):
+                    schedule_data = {}
+                    for slot in raw_parsed:
+                        # Expect slot to be like {"day": "Monday", "time": "09:00"}
+                        day = slot.get('day') if isinstance(slot, dict) else None
+                        time = slot.get('time') if isinstance(slot, dict) else None
+                        if day and time:
+                            schedule_data.setdefault(day, []).append(time)
+                elif isinstance(raw_parsed, dict):
+                    schedule_data = raw_parsed
+
+        if schedule_data is None:
+            schedule_data = {}
+
         therapist = Therapist.objects.create(**validated_data)
-        
+
         # Create schedule time slots
         for day, times in schedule_data.items():
+            # ensure times is iterable
+            if isinstance(times, str):
+                try:
+                    times = json.loads(times)
+                except Exception:
+                    times = [times]
             for time in times:
                 Schedule.objects.create(
                     therapist=therapist,
                     day=day,
                     time=time,
-                    is_available=True
+                    is_available=True,
                 )
-        
+
         return therapist
     
     def update(self, instance, validated_data):
+        import json
+
         schedule_data = validated_data.pop('schedule', None)
-        
+
+        # If schedule not provided in validated_data, try to read raw initial_data
+        if schedule_data is None and hasattr(self, 'initial_data'):
+            raw = self.initial_data.get('schedule') or self.initial_data.get('time_slots')
+            if raw:
+                if isinstance(raw, str):
+                    try:
+                        raw_parsed = json.loads(raw)
+                    except Exception:
+                        raw_parsed = None
+                else:
+                    raw_parsed = raw
+
+                if isinstance(raw_parsed, list):
+                    schedule_data = {}
+                    for slot in raw_parsed:
+                        day = slot.get('day') if isinstance(slot, dict) else None
+                        time = slot.get('time') if isinstance(slot, dict) else None
+                        if day and time:
+                            schedule_data.setdefault(day, []).append(time)
+                elif isinstance(raw_parsed, dict):
+                    schedule_data = raw_parsed
+
         # Update therapist fields
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
-        
+
         # Update schedule if provided
         if schedule_data:
             # Remove existing schedule
             instance.time_slots.all().delete()
-            
+
             # Create new schedule
             for day, times in schedule_data.items():
+                if isinstance(times, str):
+                    try:
+                        times = json.loads(times)
+                    except Exception:
+                        times = [times]
                 for time in times:
                     Schedule.objects.create(
                         therapist=instance,
                         day=day,
                         time=time,
-                        is_available=True
+                        is_available=True,
                     )
-        
+
         return instance
 
 
