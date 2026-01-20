@@ -18,34 +18,23 @@ export default function Hero() {
               Experience confidential online therapy with licensed professionals. 
               Get support whenever you need it, from the comfort of your home.
             </p>
-            <div className="d-flex gap-3 flex-wrap">
-              <Button 
-                style={{ backgroundColor: '#660ff1', border: 'none' }} 
-                size="lg" 
-                className="fw-bold text-white"
-              >
-                <Link to="/appointment" className="text-white text-decoration-none">
-                Start Therapy
-                </Link>
-                
-              </Button>
-              <Button 
-                style={{ 
-                  backgroundColor: 'transparent', 
-                  border: '2px solid #660ff1',
-                  color: '#660ff1'
-                }}
-                size="lg" 
-                className="d-flex align-items-center gap-2"
-              >
-                <Link to="/about" className="text-decoration-none " style={{ 
-                  backgroundColor: 'transparent', 
-                  color: '#660ff1'
-                }}> 
-
-                About Us <FaArrowRight />
-                </Link>
-              </Button>
+            <div className="d-flex  ">
+              <Link to="/appointment" className="text-decoration-none">
+                <Button 
+                  size="lg" 
+                  className="fw-bold text-white d-block me-3 d-flex align-items-center gap-2"
+                >
+                  Browse Therapists 
+                </Button>
+              </Link>
+              <Link to="/about" className="text-decoration-none">
+                <Button 
+                  
+                  size="lg" 
+                  className="fw-bold text-white d-block me-3 d-flex align-items-center gap-2"                >
+                  Learn More <FaArrowRight />
+                </Button>
+              </Link>
             </div>
             <Row className="mt-5">
               {['24/7 Care', 'Expert Help', 'Safe Space'].map((item, index) => (

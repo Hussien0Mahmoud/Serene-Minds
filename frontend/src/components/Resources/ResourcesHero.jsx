@@ -1,39 +1,47 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import { FaBook, FaVideo } from 'react-icons/fa';
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import { FaBook, FaVideo, FaArrowRight } from 'react-icons/fa';
 import './ResourcesHero.css';
 
 export default function ResourcesHero() {
   return (
-    <div className="resources-hero py-4">
+    <section className="resources-hero">
       <Container>
-        <Row className="align-items-center">
-          <Col lg={8}>
-            <h2 className="text-white mb-2">
-              Mental Health Resources
-            </h2>
-            <p className="text-white-50 mb-0">
-              Explore our curated collection of books, articles, and videos to support your mental wellness journey
+        <Row className="align-items-center gy-4">
+          <Col lg={7}>
+            <span className="badge-pill mb-3">Mental Wellness Library</span>
+
+            <h1 className="hero-title">
+              Explore Mental Health Resources
+            </h1>
+
+            <p className="hero-subtitle">
+              Discover expert-curated books, articles, and videos designed to
+              support your mental wellness journey.
             </p>
           </Col>
-          <Col lg={4} className="d-none d-lg-flex justify-content-end">
-            <div className="d-flex gap-4">
-              <div className="stat-box">
+
+          <Col lg={5} className="d-none d-lg-block">
+            <div className="stats-wrapper">
+              <div className="stat-card">
                 <FaBook className="stat-icon" />
                 <div>
-                  <p className="mb-0">Books & Articles</p>
+                  <h5>Books & Articles</h5>
+                  <p>Evidence-based reading</p>
                 </div>
               </div>
-              <div className="stat-box">
+
+              <div className="stat-card">
                 <FaVideo className="stat-icon" />
                 <div>
-                  <p className="mb-0">Videos & Tutorials</p>
+                  <h5>Videos & Tutorials</h5>
+                  <p>Guided & visual learning</p>
                 </div>
               </div>
             </div>
           </Col>
         </Row>
       </Container>
-    </div>
+    </section>
   );
 }

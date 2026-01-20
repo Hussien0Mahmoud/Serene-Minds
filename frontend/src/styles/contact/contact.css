@@ -4,4 +4,7 @@
     background-size: cover;
     height: 400px;
 }
-  
+.hero-section link:hover .btn {
+    text-decoration: none;
+    color: #660ff1 !important;
+}

@@ -11,7 +11,7 @@ export default function ContactHero() {
       <Container>
       <h1 className=" display-3 fw-bold " style={{ color: '#660ff1' }} >Let's Connect!</h1>
       <p className="lead mt-3 fs-4 "  style={{ color: '#660ff1' }}>Have questions or need assistance? We’d love to hear from you!</p>
-      <Link className="btn  btn-lg mt-3" to={'/'}  style={{ outline: '1px solid #660ff1' }}>Back To Home</Link>
+      <Link className="btn  btn-lg mt-3" to={'/'}  style={{ outline: '1px solid #660ff1', hover: { color: '#660ff1' } }}>Back To Home</Link>
 
       </Container>
     </div>

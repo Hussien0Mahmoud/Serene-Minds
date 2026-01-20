@@ -1,0 +1,301 @@
+/* TherapistList Responsive Styles */
+
+.therapist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.therapist-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.therapist-filter {
+  min-width: 150px;
+}
+
+.therapist-card {
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.therapist-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.therapist-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin: 0 auto;
+}
+
+.therapist-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.therapist-specialty {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 0.75rem;
+}
+
+.therapist-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.therapist-badges {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  width: 80%;
+  margin: auto;
+  background-color: #5d3596 !important;
+}
+
+.therapist-experience {
+  font-size: 0.85rem;
+  color: #6c757d;
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.therapist-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+
+.therapist-price {
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.therapist-btn {
+  border-color: #6600f1;
+  color: #6600f1;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-grow: 1;
+  min-height: 40px;
+}
+
+.therapist-btn:hover {
+  background-color: #6600f1;
+  color: white;
+  border-color: #6600f1;
+}
+
+.loading-spinner {
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+/* Tablet devices */
+@media (max-width: 768px) {
+  .therapist-header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+
+  .therapist-title {
+    font-size: 1.5rem;
+    width: 100%;
+  }
+
+  .therapist-filter {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .therapist-container {
+    padding: 1.5rem 0;
+  }
+
+  .therapist-image {
+    width: 90px;
+    height: 90px;
+  }
+
+  .therapist-name {
+    font-size: 1rem;
+  }
+
+  .therapist-specialty {
+    font-size: 0.85rem;
+  }
+
+  .therapist-footer {
+    flex-direction: column;
+  }
+
+  .therapist-price {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .therapist-btn {
+    width: 100%;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 576px) {
+  .therapist-title {
+    font-size: 1.25rem;
+  }
+
+  .therapist-header {
+    gap: 0.75rem;
+  }
+
+  .therapist-filter {
+    width: 100%;
+  }
+
+  .therapist-container {
+    padding: 1rem 0;
+  }
+
+  .therapist-image {
+    width: 80px;
+    height: 80px;
+  }
+
+  .therapist-name {
+    font-size: 0.95rem;
+    margin-top: 0.75rem;
+  }
+
+  .therapist-specialty {
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .therapist-rating {
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .therapist-badges {
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .therapist-badges .badge {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .therapist-experience {
+    font-size: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .therapist-footer {
+    gap: 0.5rem;
+  }
+
+  .therapist-price {
+    font-size: 0.9rem;
+  }
+
+  .therapist-btn {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+    min-height: 36px;
+  }
+
+  .therapist-btn svg {
+    display: none;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  .therapist-title {
+    font-size: 1.1rem;
+  }
+
+  .therapist-container {
+    padding: 0.75rem 0;
+  }
+
+  .therapist-image {
+    width: 70px;
+    height: 70px;
+  }
+
+  .therapist-name {
+    font-size: 0.9rem;
+  }
+
+  .therapist-specialty {
+    font-size: 0.75rem;
+  }
+
+  .therapist-rating {
+    font-size: 0.8rem;
+  }
+
+  .therapist-badges .badge {
+    font-size: 0.65rem;
+    padding: 0.25rem 0.4rem;
+  }
+
+  .therapist-price {
+    font-size: 0.85rem;
+  }
+
+  .therapist-btn {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.5rem;
+    min-height: 32px;
+  }
+
+  .card-body {
+    padding: 0.75rem;
+  }
+
+  .therapist-footer {
+    gap: 0.25rem;
+  }
+}
+
+/* Large screens optimization */
+@media (min-width: 1200px) {
+  .therapist-container {
+    padding: 3rem 0;
+  }
+
+  .therapist-header {
+    margin-bottom: 2rem;
+  }
+}

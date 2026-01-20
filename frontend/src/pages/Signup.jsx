@@ -41,7 +41,17 @@ export default function Signup() {
       };
 
       const response = await addNewUser(newUser);
-      dispatch(loginSuccess(response.data));
+      const u = response.data || {};
+      const normalized = {
+        id: u.id,
+        username: u.username,
+        email: u.email,
+        role: u.role,
+        phone: u.phone,
+        name: u.name || u.username || newUser.name || '',
+        profileImage: u.profile_image || u.profileImage || newUser.profileImage || ''
+      };
+      dispatch(loginSuccess(normalized));
       navigate('/login');
     } catch (err) {
       console.log(err)
