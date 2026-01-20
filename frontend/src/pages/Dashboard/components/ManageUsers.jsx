@@ -97,14 +97,16 @@ export default function ManageUsers() {
     try {
       setLoading(true);
       const userData = {
-        username: selectedUser.name,
+        username: selectedUser.name || selectedUser.username,
+        name: selectedUser.name,
         email: selectedUser.email,
         phone: selectedUser.phone,
         role: selectedUser.role,
+        profileImage: selectedUser.profileImage || ''
       };
 
       if (selectedUser.id) {
-
+        // Edit existing user
         if (passwordFields.currentPassword || passwordFields.newPassword) {
           if (!passwordFields.currentPassword) {
             alert('Current password is required to change password');
@@ -119,7 +121,11 @@ export default function ManageUsers() {
         }
         await editUser(selectedUser.id, userData);
       } else {
-
+        // Create new user
+        if (!selectedUser.password) {
+          alert('Password is required for new user');
+          return;
+        }
         userData.password = selectedUser.password;
         await addNewUser(userData);
       }

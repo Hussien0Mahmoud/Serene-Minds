@@ -1,0 +1,119 @@
+/* Appointment Page Responsive Styles */
+
+.appointment-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.appointment-card-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.appointment-signin-section {
+  margin-top: auto;
+  padding: 2rem 1rem;
+  background-color: #f8f9fa;
+  width: 100%;
+}
+
+.appointment-signin-text {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.appointment-signin-button {
+  background-color: #6600f1;
+  color: white;
+  padding: 10px 24px;
+  transition: all 0.3s ease;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.appointment-signin-button:hover {
+  background-color: #7711ff;
+  color: white;
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(102, 0, 241, 0.3);
+}
+
+.appointment-signin-button:active {
+  background-color: #5500dd;
+  transform: translateY(0);
+}
+
+/* Tablet devices */
+@media (max-width: 768px) {
+  .appointment-signin-section {
+    padding: 1.5rem 1rem;
+  }
+
+  .appointment-signin-text {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .appointment-signin-button {
+    padding: 8px 20px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 576px) {
+  .appointment-container {
+    min-height: calc(100vh - 60px);
+  }
+
+  .appointment-signin-section {
+    padding: 1rem 0.75rem;
+  }
+
+  .appointment-signin-text {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .appointment-signin-button {
+    width: 90%;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    max-width: 300px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  .appointment-signin-section {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .appointment-signin-text {
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .appointment-signin-button {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Ensure proper layout on ultra-wide screens */
+@media (min-width: 1400px) {
+  .appointment-container {
+    max-width: 100%;
+  }
+}

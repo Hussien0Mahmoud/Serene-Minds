@@ -200,12 +200,6 @@ export default function Resources() {
                         <FaPlay size={48} color={colorPalette.text.light} />
                       </div>
                     )}
-                    <Badge 
-                      className="position-absolute top-0 end-0 m-2"
-                      style={{ backgroundColor: colorPalette.base }}
-                    >
-                      {resource.category}
-                    </Badge>
                   </div>
                   
                   <Card.Body className="d-flex flex-column flex-grow-1">
@@ -216,7 +210,7 @@ export default function Resources() {
                       <Badge 
                         style={{ 
                           backgroundColor: colorPalette.transparent.light,
-                          color: colorPalette.base
+                          color: colorPalette.text.light
                         }}
                       >
                         {resource.category}
