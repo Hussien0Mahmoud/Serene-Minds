@@ -31,11 +31,12 @@ export default function Header() {
 
   return (
     <>
-      <Navbar expand="lg" className="bg-dark text-light py-2">
+      <Navbar expand="lg" className="bg-dark text-light py-2 shadow-lg">
         <Container fluid>
           <Navbar.Brand
             href="/"
-            className="ms-3 text-light fw-bold fs-3 d-flex align-items-center"
+            className="ms-3 text-light fw-bold fs-3 d-flex align-items-center transition"
+            style={{ cursor: 'pointer' }}
           >
             <img
               alt=""
@@ -57,11 +58,9 @@ export default function Header() {
             className="justify-content-end me-4 mt-3"
           >
             <Nav className="m-auto">
-              <Nav.Link as={Link} to="/about" className="text-light me-3">
-                AboutUs
-              </Nav.Link>
-              <Nav.Link as={Link} to="/contact" className="text-light me-3">
-                ContactUs
+              
+              <Nav.Link as={Link} to="/" className="text-light me-3">
+                Home
               </Nav.Link>
               <Nav.Link as={Link} to="/appointment" className="text-light me-3">
                 Our Therapist
@@ -70,7 +69,13 @@ export default function Header() {
                 Resources
               </Nav.Link>
               <Nav.Link as={Link} to="/events" className="text-light me-3">
-                events
+                Events
+              </Nav.Link>
+              <Nav.Link as={Link} to="/about" className="text-light me-3">
+                About
+              </Nav.Link>
+              <Nav.Link as={Link} to="/contact" className="text-light me-3">
+                Contact
               </Nav.Link>
             </Nav>
 
@@ -126,7 +131,7 @@ export default function Header() {
                       <Dropdown.Divider style={{ borderColor: "#660ff115" }} />
                       <Dropdown.Item
                         onClick={handleLogout}
-                        style={{ color: "#660ff1" }}
+                        style={{ color: "#e74c3c" }}
                         className="hover-item"
                       >
                         <FaSignOutAlt className="me-2" />

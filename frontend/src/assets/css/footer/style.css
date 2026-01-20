@@ -1,0 +1,212 @@
+/* Footer Responsive Styles */
+
+footer {
+  margin-top: auto;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(102, 15, 241, 0.05) 100%);
+  border-top: 1px solid rgba(102, 15, 241, 0.2);
+}
+
+.footer-links a {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.footer-links a::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #660ff1, #8f45ff);
+  transition: width 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #660ff1 !important;
+  padding-left: 5px;
+}
+
+.footer-links a:hover::before {
+  width: 100%;
+}
+
+/* Social icons with enhanced styling */
+.d-flex.gap-3 a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(102, 15, 241, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(102, 15, 241, 0.2);
+}
+
+.d-flex.gap-3 a:hover {
+  background: linear-gradient(135deg, #660ff1, #8f45ff);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(102, 15, 241, 0.3);
+}
+
+/* Medium devices and up */
+@media (min-width: 768px) {
+  footer {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .footer-links {
+    padding-left: 1rem;
+  }
+}
+
+/* Tablet and small devices */
+@media (max-width: 767px) {
+  footer {
+    padding: 1.5rem 0;
+  }
+
+  footer .row > [class*="col-"] {
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-links {
+    padding-left: 0;
+  }
+
+  .footer-links a {
+    font-size: 0.95rem;
+  }
+
+  h5 {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
+
+  .input-group input {
+    margin-bottom: 0.5rem;
+    width: 100% !important;
+  }
+
+  .input-group button {
+    width: 100%;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 576px) {
+  footer {
+    padding: 1rem 0;
+  }
+
+  footer .container-fluid {
+    padding: 0 0.75rem;
+  }
+
+  footer .row {
+    gap: 1rem;
+  }
+
+  .footer-links {
+    padding-left: 0;
+  }
+
+  h5 {
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  p {
+    font-size: 0.9rem !important;
+  }
+
+  .small {
+    font-size: 0.85rem !important;
+  }
+
+  .footer-links a {
+    font-size: 0.9rem;
+  }
+
+  .d-flex.gap-3 {
+    gap: 1rem !important;
+  }
+
+  .input-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-control,
+  .btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .form-control {
+    width: 100% !important;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  hr {
+    margin: 1rem 0 !important;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  footer .container-fluid {
+    padding: 0 0.5rem;
+  }
+
+  h5 {
+    font-size: 0.9rem !important;
+  }
+
+  p,
+  .small {
+    font-size: 0.85rem !important;
+  }
+
+  .d-flex.gap-3 {
+    gap: 0.75rem !important;
+  }
+}
+
+/* Ensure proper text justification */
+.text-justify {
+  text-align: justify;
+  text-align-last: auto;
+}
+
+/* Social icon hover effect */
+.footer-links a,
+footer a {
+  color: inherit;
+}
+
+footer .fs-4 {
+  transition: all 0.3s ease;
+}
+
+footer a:hover .fa-facebook,
+footer a:hover .fa-twitter,
+footer a:hover .fa-instagram,
+footer a:hover .fa-linkedin {
+  transform: scale(1.2);
+}

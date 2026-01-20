@@ -1,9 +1,47 @@
 :root {
+  /* Primary Colors */
   --primary: #660ff1;
+  --primary-light: #ab84fd;
+  --primary-dark: #261FB3;
+  --primary-shadow: rgba(102, 15, 241, 0.2);
+  
+  /* Secondary Colors */
   --secondary: #FBE4D6;
+  --secondary-light: #f8f9fa;
+  --secondary-dark: #e9ecef;
+  
+  /* Tertiary Colors */
   --tertiary: #261FB3;
+  
+  /* Accent Colors */
   --accent: #C68EFD;
+  
+  /* Info Colors */
   --info: #5F99AE;
+  
+  /* Neutral Colors */
+  --white: #ffffff;
+  --light-gray: #f8f9fa;
+  --light-gray-alt: #e9ecef;
+  --gray: #6c757d;
+  --dark-gray: #2d2d2d;
+  --black: #000000;
+  
+  /* Background Gradients */
+  --gradient-light-gray: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  --gradient-primary: linear-gradient(135deg, #660ff1 0%, #ab84fd 100%);
+  --gradient-primary-light: linear-gradient(135deg, rgba(102, 15, 241, 0.1), rgba(171, 132, 253, 0.1));
+  --gradient-primary-medium: linear-gradient(135deg, rgba(102, 15, 241, 0.2), rgba(171, 132, 253, 0.2));
+  --gradient-hero: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+  --gradient-overlay-dark: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8));
+  --gradient-radial-primary: radial-gradient(circle, rgba(102, 15, 241, 0.03) 0%, rgba(102, 15, 241, 0) 70%);
+  
+  /* Shadows */
+  --shadow-sm: 0 4px 15px rgba(102, 15, 241, 0.2);
+  --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 15px 30px rgba(0, 0, 0, 0.1);
+  --shadow-xxl: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 /* Text Colors */
