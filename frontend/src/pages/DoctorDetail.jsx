@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Badge, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Badge, Button, Modal, Form, Alert } from 'react-bootstrap';
 import { FaStar, FaVideo, FaPhoneAlt, FaUserMd, FaClock, FaCalendarAlt } from 'react-icons/fa';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { therapistApi } from '../api/api';
+import '../styles/global.css';
 import axios from 'axios';
+
+const BASE_URL = 'http://localhost:8000';
 
 export default function DoctorDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { currentUser } = useSelector((state) => state.user);
   const [doctor, setDoctor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [bookedSlots, setBookedSlots] = useState([]);
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [ratingComment, setRatingComment] = useState('');
+  const [ratingLoading, setRatingLoading] = useState(false);
+  const [ratingMessage, setRatingMessage] = useState('');
+  const [ratingError, setRatingError] = useState('');
 
   useEffect(() => {
     const fetchDoctorAndAppointments = async () => {
@@ -80,6 +92,64 @@ export default function DoctorDetail() {
     return bookedSlots.includes(`${date}-${time}`);
   };
 
+  const handleRatingSubmit = async () => {
+    if (!currentUser) {
+      setRatingError('Please login to rate this therapist');
+      return;
+    }
+
+    if (userRating === 0) {
+      setRatingError('Please select a rating');
+      return;
+    }
+
+    try {
+      setRatingLoading(true);
+      setRatingError('');
+      setRatingMessage('');
+      
+      const token = localStorage.getItem('access_token');
+      
+      const ratingData = {
+        rating: userRating,
+        comment: ratingComment
+      };
+
+      await axios.post(
+        `${BASE_URL}/api/therapists/${id}/rate/`,
+        ratingData,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      setRatingMessage('Thank you! Your rating has been submitted.');
+      setUserRating(0);
+      setRatingComment('');
+      
+      // Refresh doctor data to show updated rating
+      setTimeout(async () => {
+        try {
+          const doctorRes = await therapistApi.getTherapistById(id);
+          setDoctor(doctorRes.data);
+          setShowRatingModal(false);
+        } catch (err) {
+          console.error('Error refreshing doctor data:', err);
+        }
+      }, 1500);
+      
+    } catch (err) {
+      console.error('Error submitting rating:', err);
+      const errorDetail = err.response?.data?.detail || err.response?.data?.message;
+      setRatingError(errorDetail || 'Failed to submit rating. Please try again.');
+    } finally {
+      setRatingLoading(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="text-center py-5">
@@ -126,15 +196,24 @@ export default function DoctorDetail() {
                     <p className="text-muted mb-2">{doctor.specialty}</p>
                     <div className="d-flex align-items-center mb-3">
                       <FaStar className="text-warning me-1" />
-                      <span className="fw-bold me-2">{doctor.rating}</span>
-                      <span className="text-muted">({doctor.reviews_count} reviews)</span>
+                      <span className="fw-bold me-2">{doctor.rating || '0.0'}</span>
+                      <span className="text-muted">({doctor.reviews_count || '0'} reviews)</span>
+                      <Button 
+                        variant="link" 
+                        className="ms-3 p-0 text-primary"
+                        onClick={() => setShowRatingModal(true)}
+                        style={{ textDecoration: 'none', color: '#660ff1' }}
+                      >
+                        <FaStar className="me-1" />
+                        Rate This Therapist
+                      </Button>
                     </div>
                   </div>
                   <div className="d-flex gap-2">
-                    <Button variant="outline-primary" className="d-flex align-items-center gap-2">
+                    <Button variant="primary" className="d-flex align-items-center gap-2">
                       <FaVideo /> Video Call
                     </Button>
-                    <Button variant="outline-primary" className="d-flex align-items-center gap-2">
+                    <Button variant="primary" className="d-flex align-items-center gap-2">
                       <FaPhoneAlt /> Audio Call
                     </Button>
                   </div>
@@ -167,7 +246,7 @@ export default function DoctorDetail() {
                   {doctor.specializations && (
                     <Badge 
                       className="me-2 mb-2"
-                      style={{ backgroundColor: '#660ff1' }}
+                      style={{ backgroundColor: '#660ff1 !important' }}
                     >
                       {doctor.specializations}
                     </Badge>
@@ -285,17 +364,105 @@ export default function DoctorDetail() {
         </Card>
       </Container>
       <div className='text-center mt-5'>
-      <Button 
-                style={{ backgroundColor: '#660ff1', border: 'none' }} 
-                size="lg" 
-                className="fw-bold text-white"
-              >
-                <Link to="/appointment" className="text-white text-decoration-none">
-                Back
-                </Link>
-                
-              </Button>
+        <Button 
+          style={{ backgroundColor: '#660ff1', border: 'none' }} 
+          size="lg" 
+          className="fw-bold text-white"
+        >
+          <Link to="/appointment" className="text-white text-decoration-none">
+            Back
+          </Link>
+        </Button>
       </div>
+
+      {/* Rating Modal */}
+      <Modal 
+        show={showRatingModal} 
+        onHide={() => {
+          setShowRatingModal(false);
+          setUserRating(0);
+          setRatingComment('');
+          setRatingError('');
+          setRatingMessage('');
+        }}
+        centered
+      >
+        <Modal.Header closeButton style={{ borderBottom: '1px solid #e9ecef' }}>
+          <Modal.Title>Rate {doctor?.user?.username}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {ratingMessage && (
+            <Alert variant="success" dismissible onClose={() => setRatingMessage('')}>
+              {ratingMessage}
+            </Alert>
+          )}
+          
+          {ratingError && (
+            <Alert variant="danger" dismissible onClose={() => setRatingError('')}>
+              {ratingError}
+            </Alert>
+          )}
+
+          <div className="text-center mb-4">
+            <div className="d-flex justify-content-center gap-2 mb-3">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <FaStar
+                  key={star}
+                  size={32}
+                  className="cursor-pointer"
+                  style={{
+                    color: (hoverRating || userRating) >= star ? '#FFD700' : '#ddd',
+                    cursor: 'pointer',
+                    transition: 'color 0.2s'
+                  }}
+                  onMouseEnter={() => setHoverRating(star)}
+                  onMouseLeave={() => setHoverRating(0)}
+                  onClick={() => setUserRating(star)}
+                />
+              ))}
+            </div>
+            <p className="text-muted">
+              {userRating === 0 ? 'Click to rate' : `You selected ${userRating} star${userRating > 1 ? 's' : ''}`}
+            </p>
+          </div>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Add a comment (optional)</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              placeholder="Share your experience with this therapist..."
+              value={ratingComment}
+              onChange={(e) => setRatingComment(e.target.value)}
+              maxLength={500}
+            />
+            <Form.Text className="text-muted">
+              {ratingComment.length}/500 characters
+            </Form.Text>
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer style={{ borderTop: '1px solid #e9ecef' }}>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              setShowRatingModal(false);
+              setUserRating(0);
+              setRatingComment('');
+              setRatingError('');
+              setRatingMessage('');
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{ backgroundColor: '#660ff1', border: 'none' }}
+            onClick={handleRatingSubmit}
+            disabled={ratingLoading || userRating === 0}
+          >
+            {ratingLoading ? 'Submitting...' : 'Submit Rating'}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

@@ -20,6 +20,9 @@ export const therapistApi = {
   
   getTherapistById: (id) => axios.get(`${BASE_URL}/api/therapists/${id}`),
   
+  rateTherapist: (id, data) => 
+    axios.post(`${BASE_URL}/api/therapists/${id}/rate/`, data),
+  
   createTherapist: (data) => {
     return axios.post(`${BASE_URL}/api/therapists/`, {
       user_id: data.user_id,

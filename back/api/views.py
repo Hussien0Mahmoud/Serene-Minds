@@ -3,7 +3,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from django.contrib.auth import get_user_model
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Avg
+from django.db import models
 from datetime import date
 from .models import (
     Therapist,
@@ -126,6 +127,62 @@ class TherapistViewSet(viewsets.ModelViewSet):
         reviews = Review.objects.filter(therapist=therapist)
         serializer = ReviewSerializer(reviews, many=True)
         return Response(serializer.data)
+
+    @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
+    def rate(self, request, pk=None):
+        """Create or update a review/rating for a therapist"""
+        therapist = self.get_object()
+        user = request.user
+        
+        rating = request.data.get('rating')
+        comment = request.data.get('comment', '')
+        
+        if not rating:
+            return Response(
+                {'detail': 'Rating is required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            rating_int = int(rating)
+            if rating_int < 1 or rating_int > 5:
+                return Response(
+                    {'detail': 'Rating must be between 1 and 5'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        except (ValueError, TypeError):
+            return Response(
+                {'detail': 'Invalid rating value'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        from django.utils import timezone
+        from datetime import date as date_class
+        
+        # Create or update review
+        review, created = Review.objects.update_or_create(
+            user=user,
+            therapist=therapist,
+            defaults={
+                'rating': rating_int,
+                'comment': comment,
+                'date': date_class.today()
+            }
+        )
+        
+        # Recalculate therapist's average rating
+        reviews = Review.objects.filter(therapist=therapist)
+        if reviews.exists():
+            avg_rating = reviews.aggregate(Avg('rating'))['rating__avg']
+            therapist.rating = round(avg_rating, 2)
+            therapist.reviews_count = reviews.count()
+            therapist.save()
+        
+        serializer = ReviewSerializer(review)
+        return Response(
+            {'detail': 'Rating submitted successfully', 'review': serializer.data},
+            status=status.HTTP_201_CREATED if created else status.HTTP_200_OK
+        )
 
     @action(detail=True, methods=["get"])
     def appointments(self, request, pk=None):
